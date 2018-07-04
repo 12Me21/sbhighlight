@@ -1,0 +1,13 @@
+code {
+	margin: 0.2rem 0;
+	border: 1px solid rgba(24, 24, 24, 0.25);
+	box-shadow: 0.1rem 0.2rem 0.3rem -0.2rem rgba(13, 13, 13, 0.5);
+	padding: .5rem;
+	font-family: monospace;
+	font-size: 0.8rem;
+	line-height: 0.9rem;
+	overflow: auto;
+	display: inline-block;
+	white-space: pre;
+	word-break: break-all;
+}

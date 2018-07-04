@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="sbhighlight.js"></script>
+		<script defer src="script.js"></script>
+		<link rel="stylesheet" type="text/css" href="theme.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link rel="stylesheet" type="text/css" href="//12Me21.github.io/external/smilebasicfont.css" />
+	</head>
+	<body>
+		<textarea id="input" spellcheck="false" cols="50" rows="6">'Returns 0 for real, 1 for integer, 2 for string
+DEF TYPEOF(X[])
+ IF (X||0)==3 THEN RETURN 2
+ RETURN X*0-&amp;H80000000&lt;0
+END</textarea>
+		<br />
+		<button id="input_copy">Copy code</button>
+		<button id="input_highlight">Highlight</button>
+		<input type="checkbox" id="input_wrap">Wrap
+		<input type="checkbox" id="input_font">SB font
+		<hr />
+		<code id="code" class="sbhighlight"></code>
+	</body>
+</html>

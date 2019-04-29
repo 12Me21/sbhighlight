@@ -8,28 +8,29 @@ code.sbhighlight > span {
 	background-color: transparent; /* reset background color (don't change this probably) */
 }
 
-/* WORDS */
+code > .keyword  {color:#7BB5F7;font-weight:bolder;} /* keywords (including TO and STEP, when not used as variables) */
+code > .variable {color:#FFDDEE;
+	font-style:italic;
+	margin-right:0.1em;
+	margin-left:-0.1em;} /* all variables */
+code > .function {color:#BC7BFB;} /* all functions */
+code > .label    {color:#F7A500;} /* labels (not label strings) */
+code > .string   {color:#A5ADA5;} /* strings (including label strings) */
+code > .comment  {color:#10BD42;} /* comment (not REM) */
+code > .operator {color:#FFFFBB;} /* operators (including AND DIV etc.) */
+code > .number   {color:#F77BB5;} /* numbers (including TRUE and FALSE) */
+code > .name     {animation: color-change 1s infinite;} /* name of DEF */
 
-/* keywords (put this first) */
-code.sbhighlight > span.keyword  {color:rgb( 55,163,237);}
-/* variables */
-code.sbhighlight > span.variable {color:rgb(255,255,255);}
-/* built in functions */
-code.sbhighlight > span.function {color:rgb(200,122,237);} 
-/* labels */
-code.sbhighlight > span.label    {color:rgb(128,255,  0);}
-/* strings */
-code.sbhighlight > span.string   {color:rgb(  0,255, 64);}
-/* comments */
-code.sbhighlight > span.comment  {color:rgb(102,102,102);}
+code > .builtin.variable {color:#DDDDFF;}
+code > .builtin.function {color:#7B7BF7;}
 
-/* operators and named operators (speical) */
-code.sbhighlight > span.operator , code.sbhighlight > span.word-operator {color:rgb(229,193, 56);}
-/* numbers and true/false (special) */
-code.sbhighlight > span.number , code.sbhighlight > span.true-false      {color:rgb(255, 58,131);}
+code > .builtin  {font-weight:bold;} /* builtin functions and system variables (in addition to .function and .variable) */
+/*code > .to-step       { /* TO and STEP, when not used as variables, (in addition to .keyword) */
+/*code > .word-operator { /* AND, DIV, etc. (in addition to .operator) */
+/*code > .def           { /* DEF (in addition to .keyword) */
+/*code > .label-string  { /* label strings (in addition to .string) */
+/*code > .true-false    { /* TRUE and FALSE (in addition to .number) */
 
-/* new */
-code.sbhighlight > .def + .variable {animation: color-change 1s infinite;}
 @keyframes color-change {
     0% { color: red; }
     50% { color: blue; }

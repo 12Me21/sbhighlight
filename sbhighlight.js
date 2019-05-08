@@ -1,9 +1,7 @@
 var keywords=["BREAK","COMMON","CONTINUE","ELSE","END","ENDIF","REM","REPEAT","STOP","THEN","WEND"];
 var argKeywords=["CALL","DATA","DEC","DIM","ELSEIF","EXEC","FOR","GOSUB","GOTO","IF","INC","INPUT","LINPUT","NEXT","ON","OUT","PRINT","READ","RESTORE","RETURN","SWAP","UNTIL","USE","VAR","WHILE"];
-var builtins={
-	["function"]:["ABS","ACCEL","ACLS","ACOS","ARYOP","ASC","ASIN","ATAN","ATTR","BACKCOLOR","BACKTRACE","BEEP","BGANIM","BGCHK","BGCLIP","BGCLR","BGCOLOR","BGCOORD","BGCOPY","BGFILL","BGFUNC","BGGET","BGHIDE","BGHOME","BGLOAD","BGMCHK","BGMCLEAR","BGMCONT","BGMPAUSE","BGMPLAY","BGMPRG","BGMPRGA","BGMSET","BGMSETD","BGMSTOP","BGMVAR","BGMVOL","BGOFS","BGPAGE","BGPUT","BGROT","BGSAVE","BGSCALE","BGSCREEN","BGSHOW","BGSTART","BGSTOP","BGVAR","BIN$","BIQUAD","BQPARAM","BREPEAT","BUTTON","CEIL","CHKCALL","CHKCHR","CHKFILE","CHKLABEL","CHKMML","CHKVAR","CHR$","CLASSIFY","CLIPBOARD","CLS","COLOR","CONTROLLER","COPY","COS","COSH","DEG","DELETE","DIALOG","DISPLAY","DLCOPEN","DTREAD","EFCOFF","EFCON","EFCSET","EFCWET","EXP","FADE","FADECHK","FFT","FFTWFN","FILES","FILL","FLOOR","FONTDEF","FORMAT$","GBOX","GCIRCLE","GCLIP","GCLS","GCOLOR","GCOPY","GFILL","GLINE","GLOAD","GOFS","GPAGE","GPAINT","GPRIO","GPSET","GPUTCHR","GSAVE","GSPOIT","GTRI","GYROA","GYROSYNC","GYROV","HEX$","IFFT","INKEY$","INSTR","KEY","LEFT$","LEN","LOAD","LOCATE","LOG","MAX","MICDATA","MICSAVE","MICSTART","MICSTOP","MID$","MIN","MPEND","MPGET","MPNAME$","MPRECV","MPSEND","MPSET","MPSTART","MPSTAT","OPTION","PCMCONT","PCMSTOP","PCMSTREAM","PCMVOL","POP","POW","PRGDEL","PRGEDIT","PRGGET$","PRGINS","PRGNAME$","PRGSET","PRGSIZE","PROJECT","PUSH","RAD","RANDOMIZE","RENAME","RGB","RGBREAD","RIGHT$","RINGCOPY","RND","RNDF","ROUND","RSORT","SAVE","SCROLL","SGN","SHIFT","SIN","SINH","SNDSTOP","SORT","SPANIM","SPCHK","SPCHR","SPCLIP","SPCLR","SPCOL","SPCOLOR","SPCOLVEC","SPDEF","SPFUNC","SPHIDE","SPHITINFO","SPHITRC","SPHITSP","SPHOME","SPLINK","SPOFS","SPPAGE","SPROT","SPSCALE","SPSET","SPSHOW","SPSTART","SPSTOP","SPUNLINK","SPUSED","SPVAR","SQR","STICK","STICKEX","STR$","SUBST$","TALK","TALKCHK","TALKSTOP","TAN","TANH","TIME$","TMREAD","TOUCH","UNSHIFT","VAL","VISIBLE","VSYNC","WAIT","WAVSET","WAVSETA","WIDTH","XOFF","XON","XSCREEN"],
-	variable:["CALLIDX","CSRX","CSRY","CSRZ","DATE$","ERRLINE","ERRNUM","ERRPRG","EXTFEATURE","FREEMEM","HARDWARE","MAINCNT","MICPOS","MICSIZE","MILLISEC","MPCOUNT","MPHOST","MPLOCAL","PCMPOS","PRGSLOT","RESULT","SYSBEEP","TABSTEP","VERSION"],
-};
+var builtinFunctions=["ABS","ACCEL","ACLS","ACOS","ARYOP","ASC","ASIN","ATAN","ATTR","BACKCOLOR","BACKTRACE","BEEP","BGANIM","BGCHK","BGCLIP","BGCLR","BGCOLOR","BGCOORD","BGCOPY","BGFILL","BGFUNC","BGGET","BGHIDE","BGHOME","BGLOAD","BGMCHK","BGMCLEAR","BGMCONT","BGMPAUSE","BGMPLAY","BGMPRG","BGMPRGA","BGMSET","BGMSETD","BGMSTOP","BGMVAR","BGMVOL","BGOFS","BGPAGE","BGPUT","BGROT","BGSAVE","BGSCALE","BGSCREEN","BGSHOW","BGSTART","BGSTOP","BGVAR","BIN$","BIQUAD","BQPARAM","BREPEAT","BUTTON","CEIL","CHKCALL","CHKCHR","CHKFILE","CHKLABEL","CHKMML","CHKVAR","CHR$","CLASSIFY","CLIPBOARD","CLS","COLOR","CONTROLLER","COPY","COS","COSH","DEG","DELETE","DIALOG","DISPLAY","DLCOPEN","DTREAD","EFCOFF","EFCON","EFCSET","EFCWET","EXP","FADE","FADECHK","FFT","FFTWFN","FILES","FILL","FLOOR","FONTDEF","FORMAT$","GBOX","GCIRCLE","GCLIP","GCLS","GCOLOR","GCOPY","GFILL","GLINE","GLOAD","GOFS","GPAGE","GPAINT","GPRIO","GPSET","GPUTCHR","GSAVE","GSPOIT","GTRI","GYROA","GYROSYNC","GYROV","HEX$","IFFT","INKEY$","INSTR","KEY","LEFT$","LEN","LOAD","LOCATE","LOG","MAX","MICDATA","MICSAVE","MICSTART","MICSTOP","MID$","MIN","MPEND","MPGET","MPNAME$","MPRECV","MPSEND","MPSET","MPSTART","MPSTAT","OPTION","PCMCONT","PCMSTOP","PCMSTREAM","PCMVOL","POP","POW","PRGDEL","PRGEDIT","PRGGET$","PRGINS","PRGNAME$","PRGSET","PRGSIZE","PROJECT","PUSH","RAD","RANDOMIZE","RENAME","RGB","RGBREAD","RIGHT$","RINGCOPY","RND","RNDF","ROUND","RSORT","SAVE","SCROLL","SGN","SHIFT","SIN","SINH","SNDSTOP","SORT","SPANIM","SPCHK","SPCHR","SPCLIP","SPCLR","SPCOL","SPCOLOR","SPCOLVEC","SPDEF","SPFUNC","SPHIDE","SPHITINFO","SPHITRC","SPHITSP","SPHOME","SPLINK","SPOFS","SPPAGE","SPROT","SPSCALE","SPSET","SPSHOW","SPSTART","SPSTOP","SPUNLINK","SPUSED","SPVAR","SQR","STICK","STICKEX","STR$","SUBST$","TALK","TALKCHK","TALKSTOP","TAN","TANH","TIME$","TMREAD","TOUCH","UNSHIFT","VAL","VISIBLE","VSYNC","WAIT","WAVSET","WAVSETA","WIDTH","XOFF","XON","XSCREEN"];
+var systemVariables=["CALLIDX","CSRX","CSRY","CSRZ","DATE$","ERRLINE","ERRNUM","ERRPRG","EXTFEATURE","FREEMEM","HARDWARE","MAINCNT","MICPOS","MICSIZE","MILLISEC","MPCOUNT","MPHOST","MPLOCAL","PCMPOS","PRGSLOT","RESULT","SYSBEEP","TABSTEP","VERSION"];
 
 //token types:
 //comment, def, arg-keyword, function, operator, name, lparen, lbracket, equals, semicolon, comma, keyword, variable, real-label, string, number, linebreak, eof, colon, rparen, rbracket
@@ -27,7 +25,7 @@ function highlight(code,callback){
 	var unknownWord,unknownBefore,whitespaceAfter="";
 	
 	function isInExpr(type){
-		return type=="argkeyword"||type=="function"||type=="operator"||type=="name"||type=="lparen"||type=="lbracket"||type=="equals"||type=="semicolon"||type=="comma"
+		return type=="argkeyword"||type=="function"||type=="operator"||type=="name"||type=="exprc"||type=="lbracket"||type=="equals";
 	}
 	
 	function push(type,cssType){
@@ -39,37 +37,42 @@ function highlight(code,callback){
 				whitespaceAfter+=word;
 				return;
 			}
-			console.log("evn",unknownWord,prevType,unknownBefore);
-			if(type=="lbracket"||type=="equals")
+			
+			if(type=="lbracket"||type=="equals"){
 				prevType="variable";
-			else if(type=="lparen")
+			}else if(type=="lparen"){
 				prevType="function";
-			else
-				prevType = isInExpr(unknownBefore) ? "variable" : "function"
+			}else{
+				prevType=isInExpr(unknownBefore) ? "variable" : "function"
+			}
 			
 			var upper=unknownWord.toUpperCase();
-			if(prevType=="function" && (upper=="TO"||upper=="STEP")){
-				prevType="argkeyword";
-				callback(unknownWord,"to-step keyword");
-			}else{
-				callback(unknownWord, builtins[prevType].indexOf(upper)!=-1 ? prevType+" builtin" : prevType);
+			var cssType2;
+			
+			if(prevType=="function"){
+				if(upper=="TO"||upper=="STEP"){
+					prevType="argkeyword";
+					cssType2="to-step keyword";
+				}else{
+					prevType="function";
+					cssType2=builtinFunctions.indexOf(upper)!=-1 ? "function statement" : "statement";
+				}
+			}else{ //if variable
+				prevType="variable";
+				cssType2=systemVariables.indexOf(upper)!=-1 ? "function variable" : "variable";
 			}
+			callback(unknownWord, cssType2);
 			
 			unknownWord=undefined;
 			if(whitespaceAfter){
 				callback(whitespaceAfter);
-				whitespaceAfter="";
+				whitespaceAfter = "";
 			}
 		}
 		
 		if(type=="word"){
 			var upper=word.toUpperCase();
 			
-			//if(upper=="TO"||upper=="STEP"){
-			//	unknownWord=
-			//	type="argkeyword";
-			//	cssType="to-step keyword";
-			//}else 
 			if(upper=="TRUE"||upper=="FALSE"){
 				type="number";
 				cssType="true-false number";
@@ -124,13 +127,11 @@ function highlight(code,callback){
 		if(isAlpha||c=='_'){
 			next();
 			//read name
-			while(isAlpha||isDigit||c=='_'){
+			while(isAlpha||isDigit||c=='_')
 				next();
-			}
 			//read type suffix
-			if(c=='#'||c=='%'||c=='$'){
+			if(c=='#'||c=='%'||c=='$')
 				next();
-			}
 			//push word type
 			push("word");
 		//
@@ -138,23 +139,20 @@ function highlight(code,callback){
 		//
 		}else if(isDigit||c=='.'){
 			//if digit was found, read all of them
-			while(isDigit){
+			while(isDigit)
 				next();
-			}
 			//if there's a decimal point
 			if(c=='.'){
 				next();
 				//read digits after
 				if(isDigit){
 					next();
-					while(isDigit){
+					while(isDigit)
 						next();
-					}
 				}else{
 					//if GOTO is available: GOTO @skip_e
-					if(c=='#'){
+					if(c=='#')
 						next();
-					}
 					push("number");
 					continue;
 				}
@@ -164,15 +162,13 @@ function highlight(code,callback){
 				var ePos=i;
 				next();
 				//check for + or -
-				if(c=='+'||c=='-'){
+				if(c=='+'||c=='-')
 					next();
-				}
 				//read digits
 				if(isDigit){
 					next();
-					while(isDigit){
+					while(isDigit)
 						next();
-					}
 				//no digits (invalid)
 				}else{
 					jump(ePos);
@@ -182,9 +178,8 @@ function highlight(code,callback){
 			}
 			//(if GOTO is available: @skip_e)
 			//read float suffix
-			if(c=='#'){
+			if(c=='#')
 				next();
-			}
 			push("number");
 		//
 		//strings
@@ -193,13 +188,11 @@ function highlight(code,callback){
 		case '"':
 			next();
 			//read characters until another quote, line ending, or end of input
-			while(c && c!='"' && c!='\n' && c!='\r'){
+			while(c && c!='"' && c!='\n' && c!='\r')
 				next();
-			}
 			//read closing quote
-			if(c=='"'){
+			if(c=='"')
 				next();
-			}
 			push("string");
 		//
 		//comments
@@ -207,9 +200,8 @@ function highlight(code,callback){
 		break;case '\'':
 			next();
 			//read characters until line ending or end of input
-			while(c && c!='\n' && c!='\r'){
+			while(c && c!='\n' && c!='\r')
 				next();
-			}
 			push("comment");
 		//
 		//logical AND, hexadecimal, binary
@@ -228,9 +220,8 @@ function highlight(code,callback){
 				//read hexadecimal digits
 				if(isDigit||c>='A'&&c<='F'||c>='a'&&c<='f'){
 					next();
-					while(isDigit||c>='A'&&c<='F'||c>='a'&&c<='f'){
+					while(isDigit||c>='A'&&c<='F'||c>='a'&&c<='f')
 						next();
-					}
 					push("number");
 				}else{
 					jump(hPos);
@@ -243,9 +234,8 @@ function highlight(code,callback){
 				//read hexadecimal digits
 				if(c=='0'||c=='1'){
 					next();
-					while(c=='0'||c=='1'){
+					while(c=='0'||c=='1')
 						next();
-					}
 					push("number");
 				}else{
 					jump(bPos);
@@ -261,9 +251,8 @@ function highlight(code,callback){
 		break;case '@':
 			next();
 			//read name
-			while(isDigit||isAlpha||c=='_'){
+			while(isDigit||isAlpha||c=='_')
 				next();
-			}
 			//ok
 			push("label");
 		//
@@ -274,9 +263,8 @@ function highlight(code,callback){
 			//read name
 			if(isDigit||isAlpha||c=='_'){
 				next();
-				while(isDigit||isAlpha||c=='_'){
+				while(isDigit||isAlpha||c=='_')
 					next();
-				}
 				push("number");
 			}else{
 				push();
@@ -300,9 +288,8 @@ function highlight(code,callback){
 		break;case '<':
 			next();
 			//<= <<
-			if(c=='='||c=='<'){
+			if(c=='='||c=='<')
 				next();
-			}
 			push("operator");
 		//
 		//greater than, greater than or equal, right shift
@@ -310,9 +297,8 @@ function highlight(code,callback){
 		break;case '>':
 			next();
 			//>= >>
-			if(c=='='||c=='>'){
+			if(c=='='||c=='>')
 				next();
-			}
 			push("operator");
 		//
 		//equal, equal more
@@ -332,9 +318,8 @@ function highlight(code,callback){
 		break;case '!':
 			next();
 			// !=
-			if(c=='='){
+			if(c=='=')
 				next();
-			}
 			push("operator");
 		//
 		//add, subtract, multiply, divide
@@ -343,38 +328,28 @@ function highlight(code,callback){
 			next();
 			push("operator");
 		//
-		//other
 		//
+		// Left Bracket
 		break;case '[':
 			next();
 			push("lbracket",false);
-		break;case '(':
+		// Inside Expression
+		break;case '(':case ';':case ',':
 			next();
-			push("lparen",false);
-		break;case ';':
-			next();
-			push("semicolon",false);
-		break;case ',':
-			next();
-			push("comma",false);
+			push("exprc",false);
+		// Linebreak
 		break;case '\n':
 			next();
 			push("linebreak",false);
-		break;case ":":
-			next();
-			push("colon",false);
-		break;case ")":
-			next();
-			push("rparen",false);
-		break;case "]":
-			next();
-			push("rbracket",false);
-		break;case " ":case "\t":
+		// Whitespace
+		break;case ' ':case '\t':
 			next();
 			push("whitespace",false);
+		// ? print
 		break;case '?':
 			next();
 			push("argkeyword","question keyword");
+		// Other
 		break;default:
 			next();
 			push(undefined,false);

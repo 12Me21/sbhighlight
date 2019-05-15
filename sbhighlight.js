@@ -128,6 +128,8 @@ var applySyntaxHighlighting = (function(){
 				if(isInExpr(prevType)){
 					type="string";
 					cssType="label-string string";
+				}else{
+					cssType="label";
 				}
 			}else{
 				if(cssType==undefined){

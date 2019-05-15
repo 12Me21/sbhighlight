@@ -1,4 +1,9 @@
 /* example theme */
+/*
+NOTE: "function" means "built-in function OR VARIABLE" (actual functions use the "statement" classname)
+This is for backwards compatibility with the old CSS.
+SBhighlight couldn't tell functions and variables apart, and "function" was used for all builtins.
+*/
 
 code.sbhighlight {
 	color: rgb(198,175,157); /* default text color (for non-highlighted sections) */
@@ -13,18 +18,19 @@ code > .variable {color:#FFDDEE;
 	font-style:italic;
 	margin-right:0.1em;
 	margin-left:-0.1em;} /* all variables */
-code > .function {color:#BC7BFB;} /* all functions */
+code > .statement{color:#BC7BFB;} /* all functions */
 code > .label    {color:#F7A500;} /* labels (not label strings) */
 code > .string   {color:#A5ADA5;} /* strings (including label strings) */
 code > .comment  {color:#10BD42;} /* comment (not REM) */
 code > .operator {color:#FFFFBB;} /* operators (including AND DIV etc.) */
 code > .number   {color:#F77BB5;} /* numbers (including TRUE and FALSE) */
 code > .name     {animation: color-change 1s infinite;} /* name of DEF */
+/* code > .equals { /* Assignment = */
 
-code > .builtin.variable {color:#DDDDFF;}
-code > .builtin.function {color:#7B7BF7;}
+code > .function.variable  {color:#DDDDFF;}
+code > .function.statement {color:#7B7BF7;}
 
-code > .builtin  {font-weight:bold;} /* builtin functions and system variables (in addition to .function and .variable) */
+code > .function  {font-weight:bold;} /* builtin functions and system variables (in addition to .statement and .variable) */
 /*code > .to-step       { /* TO and STEP, when not used as variables, (in addition to .keyword) */
 /*code > .word-operator { /* AND, DIV, etc. (in addition to .operator) */
 /*code > .def           { /* DEF (in addition to .keyword) */
@@ -36,3 +42,5 @@ code > .builtin  {font-weight:bold;} /* builtin functions and system variables (
     50% { color: blue; }
     100% { color: red; }
 }
+
+

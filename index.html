@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,6 +7,17 @@
 		<link rel="stylesheet" type="text/css" href="theme.css" />
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<link rel="stylesheet" type="text/css" href="//12Me21.github.io/external/smilebasicfont.css" />
+		<script>
+			window.onload=function(){
+				var xhr=new XMLHttpRequest();
+				xhr.open("GET","example.prg");
+				xhr.onload=function(){
+					document.getElementById("input").value=xhr.response;
+				}
+				xhr.responseType = "text";
+				xhr.send();
+			}
+		</script>
 	</head>
 	<body>
 		<textarea id="input" spellcheck="false" cols="50" rows="6">'Returns 0 for real, 1 for integer, 2 for string

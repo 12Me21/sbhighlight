@@ -19,10 +19,8 @@ var applySyntaxHighlighting = (function(){
 	//"function"   - function call
 	//"operator"   - operators, including word operators
 	//"name"       - function name (after DEF keyword)
-	//"lparen"     - ( left parenthesis
-	//"lbracket"   - [ left bracket
 	//"equals"     - = assignment operator
-	//"expr"       - ; or ,
+	//"expr"       - ; or , or ( or [
 	//"noexpr"     - : or ) or ]
 	//"whitespace" - space or tab
 	//"variable"   - variable
@@ -35,7 +33,7 @@ var applySyntaxHighlighting = (function(){
 	//"keyword"    - keyword that doesn't have an expression after it
 	
 	function isInExpr(type){
-		return type=="argkeyword"||type=="function"||type=="operator"||type=="name"||type=="lparen"||type=="lbracket"||type=="equals"||type=="expr";
+		return type=="argkeyword"||type=="function"||type=="operator"||type=="name"||type=="equals"||type=="expr";
 	}
 	
 	function highlight(code,callback){
@@ -51,79 +49,78 @@ var applySyntaxHighlighting = (function(){
 		}
 		
 		var prev=0;
-		var prevType="linebreak";
-		var unknownWord,unknownBefore,whitespaceAfter="";
+		var prevType="start";
 		
+		//=================//
+		// Process a token //
+		//=================//
 		function push(type,cssType){
 			var word=code.substring(prev,i);
 			prev=i;
-			
-			//Some tokens might be a function or a variable, depending on the next (non-whitespace) token.
-			//When a token is parsed, check to see if the last token was one of these, and figure out what type it really is.
-			if(unknownWord){
-				if(type=="whitespace"){
-					whitespaceAfter+=word;
-					return;
-				}
-				if(type=="lbracket"||type=="equals")
-					prevType="variable";
-				else if(type=="lparen")
-					prevType="function";
-				else
-					prevType = isInExpr(unknownBefore) ? "variable" : "function"
-				
-				// decide the thing:
-				var upper=unknownWord.toUpperCase();
-				var tempCssType;
-				if(prevType=="function"){
-					//Functions named TO and STEP are assumed to be TO/STEP keywords.
-					//This is not always correct, but close enough.
-					if(upper=="TO"||upper=="STEP"){
-						prevType="argkeyword";
-						tempCssType="to-step keyword";
-					}else
-						tempCssType=builtinFunctions.indexOf(upper)!=-1 ? "statement function" : "statement";
-				}else{
-					tempCssType=systemVariables.indexOf(upper)!=-1 ? "variable function" : "variable";
-				}
-				callback(unknownWord,tempCssType);
-				
-				unknownWord=undefined;
-				if(whitespaceAfter){
-					callback(whitespaceAfter);
-					whitespaceAfter="";
-				}
-			}
-			
+			//Check words
 			if(type=="word"){
 				var upper=word.toUpperCase();
-				
+				//True/False
 				if(upper=="TRUE"||upper=="FALSE"){
 					type="number";
 					cssType="true-false number";
+				//operators
 				}else if(upper=="DIV"||upper=="MOD"||upper=="AND"||upper=="OR"||upper=="XOR"||upper=="NOT"){
 					type="operator";
 					cssType="word-operator operator";
+				//DEF
 				}else if(upper=="DEF"){
 					type="def";
 					cssType="def keyword";
+				//keywords without an expression after them
 				}else if(keywords.indexOf(upper)>=0){
 					type="keyword";
 					cssType="keyword";
+				//keywords w/ and expression after
 				}else if(argKeywords.indexOf(upper)>=0){
 					type="argkeyword";
 					cssType="keyword";
+				//User-defined function name
+				}else if(prevType=="def"){
+					type="name";
+					cssType="name";
+				//Variable, function, TO/STEP, etc.
 				}else{
-					if(prevType=="def"){
-						type="name";
-						cssType="name";
+					var fPos=i;
+					while(c==' ' || c=='\t')
+						next();
+					var isFunc=false;
+					if(isInExpr(prevType)){
+						if(c=="(")
+							isFunc=true;
 					}else{
-						unknownWord=word;
-						unknownBefore=prevType;
-						prevType=undefined;
-						return;
+						isFunc=true;
+						if(c=="["){
+							isFunc=false;
+						}else if(c=="="){
+							next();
+							if(c!="=")
+								isFunc=false;
+						}
 					}
+					if(isFunc){
+						type="function";
+						if(builtinFunctions.indexOf(upper)!=-1)
+							cssType="builtin statement";
+						else if(upper=="TO" || upper=="STEP")
+							cssType="to-step keyword";
+						else
+							cssType="statement";
+					}else{
+						type="variable"
+						if(builtinFunctions.indexOf(upper)!=-1)
+							cssType="builtin variable";
+						else
+							cssType="variable";
+					}
+					jump(fPos);
 				}
+			//Check labels
 			}else if(type=="label"){
 				if(isInExpr(prevType)){
 					type="string";
@@ -131,12 +128,14 @@ var applySyntaxHighlighting = (function(){
 				}else{
 					cssType="label";
 				}
+			//Use type as csstype if not specified
 			}else{
-				if(cssType==undefined){
+				if(cssType==undefined)
 					cssType=type;
-				}
 			}
+			//pass to callback function
 			callback(word,cssType);
+			//store previous non-whitespace token type
 			if(type!="whitespace")
 				prevType=type;
 		}
@@ -151,13 +150,11 @@ var applySyntaxHighlighting = (function(){
 			if(isAlpha(c)||c=='_'){
 				next();
 				//read name
-				while(isAlpha(c)||isDigit(c)||c=='_'){
+				while(isAlpha(c)||isDigit(c)||c=='_')
 					next();
-				}
 				//read type suffix
-				if(c=='#'||c=='%'||c=='$'){
+				if(c=='#'||c=='%'||c=='$')
 					next();
-				}
 				//push word type
 				push("word");
 			//
@@ -165,23 +162,20 @@ var applySyntaxHighlighting = (function(){
 			//
 			}else if(isDigit(c)||c=='.'){
 				//if digit was found, read all of them
-				while(isDigit(c)){
+				while(isDigit(c))
 					next();
-				}
 				//if there's a decimal point
 				if(c=='.'){
 					next();
 					//read digits after
 					if(isDigit(c)){
 						next();
-						while(isDigit(c)){
+						while(isDigit(c))
 							next();
-						}
 					}else{
 						//if GOTO is available: GOTO @skip_e
-						if(c=='#'){
+						if(c=='#')
 							next();
-						}
 						push("number");
 						continue;
 					}
@@ -191,15 +185,13 @@ var applySyntaxHighlighting = (function(){
 					var ePos=i;
 					next();
 					//check for + or -
-					if(c=='+'||c=='-'){
+					if(c=='+'||c=='-')
 						next();
-					}
 					//read digits
 					if(isDigit(c)){
 						next();
-						while(isDigit(c)){
+						while(isDigit(c))
 							next();
-						}
 					//no digits (invalid)
 					}else{
 						jump(ePos);
@@ -209,9 +201,8 @@ var applySyntaxHighlighting = (function(){
 				}
 				//(if GOTO is available: @skip_e)
 				//read float suffix
-				if(c=='#'){
+				if(c=='#')
 					next();
-				}
 				push("number");
 			//
 			//strings
@@ -220,13 +211,11 @@ var applySyntaxHighlighting = (function(){
 			case '"':
 				next();
 				//read characters until another quote, line ending, or end of input
-				while(c && c!='"' && c!='\n' && c!='\r'){
+				while(c && c!='"' && c!='\n' && c!='\r')
 					next();
-				}
 				//read closing quote
-				if(c=='"'){
+				if(c=='"')
 					next();
-				}
 				push("string");
 			//
 			//comments
@@ -234,9 +223,8 @@ var applySyntaxHighlighting = (function(){
 			break;case '\'':
 				next();
 				//read characters until line ending or end of input
-				while(c && c!='\n' && c!='\r'){
+				while(c && c!='\n' && c!='\r')
 					next();
-				}
 				push("comment");
 			//
 			//logical AND, hexadecimal, binary
@@ -255,9 +243,8 @@ var applySyntaxHighlighting = (function(){
 					//read hexadecimal digits
 					if(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'){
 						next();
-						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'){
+						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f')
 							next();
-						}
 						push("number");
 					}else{
 						jump(hPos);
@@ -270,9 +257,8 @@ var applySyntaxHighlighting = (function(){
 					//read hexadecimal digits
 					if(c=='0'||c=='1'){
 						next();
-						while(c=='0'||c=='1'){
+						while(c=='0'||c=='1')
 							next();
-						}
 						push("number");
 					}else{
 						jump(bPos);
@@ -288,9 +274,8 @@ var applySyntaxHighlighting = (function(){
 			break;case '@':
 				next();
 				//read name
-				while(isDigit(c)||isAlpha(c)||c=='_'){
+				while(isDigit(c)||isAlpha(c)||c=='_')
 					next();
-				}
 				//ok
 				push("label");
 			//
@@ -301,9 +286,8 @@ var applySyntaxHighlighting = (function(){
 				//read name
 				if(isDigit(c)||isAlpha(c)||c=='_'){
 					next();
-					while(isDigit(c)||isAlpha(c)||c=='_'){
+					while(isDigit(c)||isAlpha(c)||c=='_')
 						next();
-					}
 					push("number");
 				}else{
 					push();
@@ -326,20 +310,16 @@ var applySyntaxHighlighting = (function(){
 			//
 			break;case '<':
 				next();
-				//<= <<
-				if(c=='='||c=='<'){
+				if(c=='='||c=='<') //<= <<
 					next();
-				}
 				push("operator");
 			//
 			//greater than, greater than or equal, right shift
 			//
 			break;case '>':
 				next();
-				//>= >>
-				if(c=='='||c=='>'){
+				if(c=='='||c=='>') //>= >>
 					next();
-				}
 				push("operator");
 			//
 			//equal, equal more
@@ -358,10 +338,8 @@ var applySyntaxHighlighting = (function(){
 			//
 			break;case '!':
 				next();
-				// !=
-				if(c=='='){
+				if(c=='=') // !=
 					next();
-				}
 				push("operator");
 			//
 			//add, subtract, multiply, divide
@@ -373,13 +351,7 @@ var applySyntaxHighlighting = (function(){
 			//other
 			//
 			
-			break;case '[':
-				next();
-				push("lbracket",false);
-			break;case '(':
-				next();
-				push("lparen",false);
-			break;case ';':case ',':
+			break;case ';':case ',':case '[':case '(':
 				next();
 				push("expr",false);
 			break;case '\n':

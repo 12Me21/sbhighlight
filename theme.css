@@ -2,45 +2,39 @@
 /*
 NOTE: "function" means "built-in function OR VARIABLE" (actual functions use the "statement" classname)
 This is for backwards compatibility with the old CSS.
-SBhighlight couldn't tell functions and variables apart, and "function" was used for all builtins.
+old SBhighlight couldn't tell functions and variables apart, and "function" was used for all builtins.
 */
 
 code.sbhighlight {
 	color: rgb(198,175,157); /* default text color (for non-highlighted sections) */
-	background-color: rgb( 42, 33, 28); /* code block background color */
+	background-color: rgb( 21, 16, 14); /* code block background color */
 }
 code.sbhighlight > span {
 	background-color: transparent; /* reset background color (don't change this probably) */
 }
 
-code > .keyword  {color:#7BB5F7;font-weight:bolder;} /* keywords (including TO and STEP, when not used as variables) */
-code > .variable {color:#FFDDEE;
+code.sbhighlight > .keyword  {color:#7BB5F7;font-weight:bolder;} /* keywords (including TO and STEP, when not used as variables) */
+code.sbhighlight > .variable { /* all variables */
+	color:#FFDDEE;
 	font-style:italic;
 	margin-right:0.1em;
-	margin-left:-0.1em;} /* all variables */
-code > .statement{color:#BC7BFB;} /* all functions */
-code > .label    {color:#F7A500;} /* labels (not label strings) */
-code > .string   {color:#A5ADA5;} /* strings (including label strings) */
-code > .comment  {color:#10BD42;} /* comment (not REM) */
-code > .operator {color:#FFFFBB;} /* operators (including AND DIV etc.) */
-code > .number   {color:#F77BB5;} /* numbers (including TRUE and FALSE) */
-code > .name     {animation: color-change 1s infinite;} /* name of DEF */
-/* code > .equals { /* Assignment = */
-
-code > .function.variable  {color:#DDDDFF;}
-code > .function.statement {color:#7B7BF7;}
-
-code > .function  {font-weight:bold;} /* builtin functions and system variables (in addition to .statement and .variable) */
-/*code > .to-step       { /* TO and STEP, when not used as variables, (in addition to .keyword) */
-/*code > .word-operator { /* AND, DIV, etc. (in addition to .operator) */
-/*code > .def           { /* DEF (in addition to .keyword) */
-/*code > .label-string  { /* label strings (in addition to .string) */
-/*code > .true-false    { /* TRUE and FALSE (in addition to .number) */
-
-@keyframes color-change {
-    0% { color: red; }
-    50% { color: blue; }
-    100% { color: red; }
+	margin-left:-0.1em;
 }
+code.sbhighlight > .statement{color:#BC7BFB;} /* all functions */
+code.sbhighlight > .label    {color:#F7A500;} /* labels (not label strings) */
+code.sbhighlight > .string   {color:#A5ADA5;} /* strings (including label strings) */
+code.sbhighlight > .comment  {color:#10BD42;} /* comment (not REM) */
+code.sbhighlight > .operator {color:#FFFFBB;} /* operators (including AND DIV etc.) */
+code.sbhighlight > .number   {color:#F77BB5;} /* numbers (including TRUE and FALSE) */
+code.sbhighlight > .name     {color:#FF6010;} /* name of DEF */ 
+/* code.sbhighlight > .equals { /* Assignment = */
 
+code.sbhighlight > .function.variable  {color:#DDDDFF;}
+code.sbhighlight > .function.statement {color:#7B7BF7;}
 
+code.sbhighlight > .function  {font-weight:bold;} /* builtin functions and system variables (in addition to .statement and .variable) */
+/*code.sbhighlight > .to-step       { /* TO and STEP, when not used as variables, (in addition to .keyword) */
+/*code.sbhighlight > .word-operator { /* AND, DIV, etc. (in addition to .operator) */
+/*code.sbhighlight > .def           { /* DEF (in addition to .keyword) */
+/*code.sbhighlight > .label-string  { /* label strings (in addition to .string) */
+/*code.sbhighlight > .true-false    { /* TRUE and FALSE (in addition to .number) */

@@ -106,7 +106,7 @@ var applySyntaxHighlighting = (function(){
 					if(isFunc){
 						type="function";
 						if(builtinFunctions.indexOf(upper)!=-1)
-							cssType="builtin statement";
+							cssType="statement function";
 						else if(upper=="TO" || upper=="STEP")
 							cssType="to-step keyword";
 						else
@@ -114,7 +114,7 @@ var applySyntaxHighlighting = (function(){
 					}else{
 						type="variable"
 						if(builtinFunctions.indexOf(upper)!=-1)
-							cssType="builtin variable";
+							cssType="variable function";
 						else
 							cssType="variable";
 					}

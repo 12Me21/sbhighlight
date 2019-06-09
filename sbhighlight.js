@@ -2,14 +2,14 @@ var applySyntaxHighlighting = (function(){
 	//keywords that don't have an expression after them
 	var keywords=[
 		//Both
-		"BREAK","COMMON","CONTINUE","ELSE","END","ENDIF","REM","REPEAT","STOP","THEN","WEND"
+		"BREAK","COMMON","CONTINUE","ELSE","END","ENDIF","REM","REPEAT","STOP","THEN","WEND",
 		//SB4
 		"OTHERWISE","ENDCASE","LOOP","ENDLOOP"
 	];
 	//keywords w/ expr -b4
 	var argKeywords=[
 		//Both
-		"CALL","DATA","DEC","DIM","ELSEIF","EXEC","FOR","GOSUB","GOTO","IF","INC","INPUT","LINPUT","NEXT","ON","OUT","PRINT","READ","RESTORE","RETURN","SWAP","UNTIL","USE","VAR","WHILE"
+		"CALL","DATA","DEC","DIM","ELSEIF","EXEC","FOR","GOSUB","GOTO","IF","INC","INPUT","LINPUT","NEXT","ON","OUT","PRINT","READ","RESTORE","RETURN","SWAP","UNTIL","USE","VAR","WHILE",
 		//SB4
 		"CASE","WHEN","DEFOUT","TPRINT","CONST","ENUM"
 	];

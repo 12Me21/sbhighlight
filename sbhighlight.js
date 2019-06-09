@@ -6,7 +6,7 @@ var applySyntaxHighlighting = (function(){
 		//SB4
 		"OTHERWISE","ENDCASE","LOOP","ENDLOOP"
 	];
-	//keywords w/ expr -b4
+	//keywords w/ expression after them (or other special thing)
 	var argKeywords=[
 		//Both
 		"CALL","DATA","DEC","DIM","ELSEIF","EXEC","FOR","GOSUB","GOTO","IF","INC","INPUT","LINPUT","NEXT","ON","OUT","PRINT","READ","RESTORE","RETURN","SWAP","UNTIL","USE","VAR","WHILE",
@@ -270,9 +270,9 @@ var applySyntaxHighlighting = (function(){
 					var hPos=i;
 					next();
 					//read hexadecimal digits
-					if(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'){
+					if(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'||c=='_'){
 						next();
-						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f')
+						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'||c=='_')
 							next();
 						push("number");
 					}else{
@@ -284,9 +284,9 @@ var applySyntaxHighlighting = (function(){
 					var bPos=i;
 					next();
 					//read hexadecimal digits
-					if(c=='0'||c=='1'){
+					if(c=='0'||c=='1'||c=='_'){
 						next();
-						while(c=='0'||c=='1')
+						while(c=='0'||c=='1'||c=='_')
 							next();
 						push("number");
 					}else{

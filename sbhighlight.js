@@ -94,6 +94,7 @@ var applySyntaxHighlighting = (function(){
 				}else if(upper=="T" && c=='?'){
 					word+=c;
 					next();
+					prev=i;
 					type="keyword";
 					cssType="keyword";
 				//keywords without an expression after them

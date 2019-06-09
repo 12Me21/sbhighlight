@@ -288,9 +288,18 @@ var applySyntaxHighlighting = (function(){
 					next();
 					while(isDigit(c)||isAlpha(c)||c=='_')
 						next();
+					//read type suffix
+					if(c=='#'||c=='%'||c=='$')
+						next();
 					push("number");
 				}else{
-					push();
+					//read type suffix
+					if(c=='#'||c=='%'||c=='$'){
+						next();
+						push("number");
+					}else{
+						push();
+					}
 				}
 			//
 			//logical or

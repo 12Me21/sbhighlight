@@ -142,7 +142,7 @@ var applySyntaxHighlighting = (function(){
 							cssType="statement";
 					}else{
 						type="variable"
-						if(builtinFunctions.indexOf(upper)!=-1)
+						if(systemVariables.indexOf(upper)!=-1)
 							cssType="variable function";
 						else
 							cssType="variable";

@@ -1,29 +1,34 @@
-var applySyntaxHighlighting = (function(){
+var highlight_smilebasic = (function(){
 	//keywords that don't have an expression after them
 	var keywords=[
-		//Both
-		"BREAK","COMMON","CONTINUE","ELSE","END","ENDIF","REM","REPEAT","STOP","THEN","WEND",
-		//SB4
+		"BREAK","COMMON","CONTINUE","ELSE","END","ENDIF","REM","REPEAT","THEN","WEND",
+	];
+	var keywords_sb3=[
+		"STOP"	
+	];
+	var keywords_sb4=[
 		"OTHERWISE","ENDCASE","LOOP","ENDLOOP"
 	];
 	//keywords w/ expression after them (or other special thing)
 	var argKeywords=[
-		//Both
 		"CALL","DATA","DEC","DIM","ELSEIF","EXEC","FOR","GOSUB","GOTO","IF","INC","INPUT","LINPUT","NEXT","ON","OUT","PRINT","READ","RESTORE","RETURN","SWAP","UNTIL","USE","VAR","WHILE",
-		//SB4
-		"CASE","WHEN","DEFOUT","TPRINT","CONST","ENUM"
+	];
+	var argKeywords_sb4=[
+		"CASE","WHEN","DEFOUT","TPRINT","CONST","ENUM",
 	];
 	var builtinFunctions=[
-		//Both
-		"ABS","ACCEL","ACLS","ACOS","ARYOP","ASC","ASIN","ATAN","ATTR","BACKCOLOR","BACKTRACE","BEEP","BGMCHK","BGMCLEAR","BGMCONT","BGMPAUSE","BGMPLAY","BGMSET","BGMSETD","BGMSTOP","BGMVAR","BGMVOL","BIN$","BIQUAD","BQPARAM","BREPEAT","BUTTON","CEIL","CHKCALL","CHKCHR","CHKFILE","CHKLABEL","CHKMML","CHKVAR","CHR$","CLASSIFY","CLIPBOARD","CLS","COLOR","CONTROLLER","COPY","COS","COSH","DEG","DELETE","DIALOG","DTREAD","EFCSET","EFCWET","EXP","FADE","FADECHK","FFT","FFTWFN","FILES","FILL","FLOOR","FORMAT$","GBOX","GCIRCLE","GCLIP","GCLS","GCOLOR","GCOPY","GFILL","GLINE","GLOAD","GPAINT","GPSET","GPUTCHR","GSAVE","GTRI","GYROA","GYROSYNC","GYROV","HEX$","IFFT","INKEY$","INSTR","KEY","LEFT$","LEN","LOAD","LOCATE","LOG","MAX","MID$","MIN","OPTION","PCMCONT","PCMSTOP","PCMSTREAM","PCMVOL","POP","POW","PRGDEL","PRGEDIT","PRGGET$","PRGINS","PRGNAME$","PRGSET","PRGSIZE","PROJECT","PUSH","RAD","RANDOMIZE","RENAME","RGB","RIGHT$","RINGCOPY","RND","RNDF","ROUND","RSORT","SAVE","SCROLL","SGN","SHIFT","SIN","SINH","SNDSTOP","SORT","SPANIM","SPCHK","SPCHR","SPCLR","SPCOL","SPCOLOR","SPCOLVEC","SPDEF","SPFUNC","SPHIDE","SPHITINFO","SPHITRC","SPHITSP","SPHOME","SPLINK","SPOFS","SPPAGE","SPROT","SPSCALE","SPSET","SPSHOW","SPSTART","SPSTOP","SPUNLINK","SPUSED","SPVAR","SQR","STICK","STR$","SUBST$","TALK","TALKCHK","TALKSTOP","TAN","TANH","TMREAD","TOUCH","UNSHIFT","VAL","VSYNC","WAIT","WAVSET","WAVSETA","XSCREEN",
-		//SB3
-		"BGANIM","BGCHK","BGCLIP","BGCLR","BGCOLOR","BGCOORD","BGCOPY","BGFILL","BGFUNC","BGGET","BGHIDE","BGHOME","BGLOAD","BGOFS","BGPAGE","BGPUT","BGROT","BGSAVE","BGSCALE","BGSCREEN","BGSHOW","BGSTART","BGSTOP","BGVAR","BGMPRG","BGMPRGA","DISPLAY","DLCOPEN","EFCOFF","EFCON","FONTDEF","GOFS","GPAGE","GPRIO","GSPOIT","MICDATA","MICSAVE","MICSTART","MICSTOP","MPEND","MPGET","MPNAME$","MPRECV","MPSEND","MPSET","MPSTART","MPSTAT","STICKEX","RGBREAD","SPCLIP","VISIBLE","WIDTH","XOFF","XON",
-		//BIG
-		"GPUTCHR16",
+		"ABS","ACCEL","ACLS","ACOS","ARYOP","ASC","ASIN","ATAN","ATTR","BACKCOLOR","BEEP","BGMCHK","BGMCLEAR","BGMCONT","BGMPAUSE","BGMPLAY","BGMSET","BGMSETD","BGMSTOP","BGMVAR","BGMVOL","BIN$","BIQUAD","BQPARAM","BREPEAT","BUTTON","CEIL","CHKCALL","CHKCHR","CHKFILE","CHKLABEL","CHKMML","CHKVAR","CHR$","CLASSIFY","CLIPBOARD","CLS","COLOR","CONTROLLER","COPY","COS","COSH","DEG","DELETE","DIALOG","DTREAD","EFCSET","EFCWET","EXP","FADE","FADECHK","FFT","FFTWFN","FILES","FILL","FLOOR","FORMAT$","GBOX","GCIRCLE","GCLIP","GCLS","GCOLOR","GCOPY","GFILL","GLINE","GLOAD","GPAINT","GPSET","GPUTCHR","GSAVE","GTRI","GYROA","GYROSYNC","GYROV","HEX$","IFFT","INKEY$","INSTR","KEY","LEFT$","LEN","LOAD","LOCATE","LOG","MAX","MID$","MIN","OPTION","PCMCONT","PCMSTOP","PCMSTREAM","PCMVOL","POP","POW","PRGDEL","PRGEDIT","PRGGET$","PRGINS","PRGNAME$","PRGSET","PRGSIZE","PROJECT","PUSH","RAD","RANDOMIZE","RENAME","RGB","RIGHT$","RINGCOPY","RND","RNDF","ROUND","RSORT","SAVE","SCROLL","SGN","SHIFT","SIN","SINH","SNDSTOP","SORT","SPANIM","SPCHK","SPCHR","SPCLR","SPCOL","SPCOLOR","SPCOLVEC","SPDEF","SPFUNC","SPHIDE","SPHITINFO","SPHITRC","SPHITSP","SPHOME","SPLINK","SPOFS","SPPAGE","SPROT","SPSCALE","SPSET","SPSHOW","SPSTART","SPSTOP","SPUNLINK","SPUSED","SPVAR","SQR","STICK","STR$","SUBST$","TALK","TALKCHK","TALKSTOP","TAN","TANH","TMREAD","TOUCH","UNSHIFT","VAL","VSYNC","WAIT","WAVSET","WAVSETA","XSCREEN",
 		//BIG+SB4
 		"VIBRATE",
-		//SB4
-		"PCMPOS","TYPEOF","ARRAY#","ARRAY%","ARRAY$","RESIZE","INSERT","REMOVE","INSPECT","DEFARGC","DEFARG","DEFOUTC","INT","FLOAT","LAST","FONTINFO","PERFBEGIN","PERFEND","SYSPARAM","METAEDIT","METALOAD","METASAVE","XCTRLSTYLE","MOUSE","MBUTTON","IRSTART","IRSTOP","IRSTATE","IRREAD","IRSPRITE","KEYBOARD","TCPIANO","TCHOUSE","TCROBOT","TCFISHING","TCBIKE","TCVISOR","LOADG","LOADV","SAVEG","SAVEV","ANIMDEF","TSCREEN","TPAGE","TCOLOR","TLAYER","TPUT","TFILL","THOME","TOFS","TROT","TSCALE","TSHOW","THIDE","TBLEND","TANIM","TSTOP","TSTART","TCHK","TVAR","TCOPY","TSAVE","TLOAD","TARRAY","TUPDATE","TFUNC","GTARGET","RGBF","HSV","GPGET","GARRAY","GUPDATE","GSAMPLE","SPLAYER","LAYER","LMATRIX","LFILTER","LCLIP","BEEPPIT","BEEPPAN","BEEPVOL","BEEPSTOP","BGMPITCH","BGMWET","EFCEN","SNDMSBAL","SNDMVOL","PRGSEEK","XSUBSCREEN","ENVSTAT","ENVTYPE","ENVLOAD","ENVSAVE","ENVINPUT$","ENVFOCUS","ENVPROJECT","ENVLOCATE","PUSHKEY","HELPGET","HELPINFO","UISTATE","UIMASK","UIPUSHCMPL","DATE$","TIME$","RESULT","CALLIDX","FREEMEM","MILLISEC","MAINCNT"
+	];
+	var builtinFunctions_sb3=[
+		"BACKTRACE","BGANIM","BGCHK","BGCLIP","BGCLR","BGCOLOR","BGCOORD","BGCOPY","BGFILL","BGFUNC","BGGET","BGHIDE","BGHOME","BGLOAD","BGOFS","BGPAGE","BGPUT","BGROT","BGSAVE","BGSCALE","BGSCREEN","BGSHOW","BGSTART","BGSTOP","BGVAR","BGMPRG","BGMPRGA","DISPLAY","DLCOPEN","EFCOFF","EFCON","FONTDEF","GOFS","GPAGE","GPRIO","GSPOIT","MICDATA","MICSAVE","MICSTART","MICSTOP","MPEND","MPGET","MPNAME$","MPRECV","MPSEND","MPSET","MPSTART","MPSTAT","STICKEX","RGBREAD","SPCLIP","VISIBLE","WIDTH","XOFF","XON",
+		//BIG
+		"GPUTCHR16",
+	];
+	var builtinFunctions_sb4=[
+		"PCMPOS","TYPEOF","ARRAY#","ARRAY%","ARRAY$","RESIZE","INSERT","REMOVE","INSPECT","DEFARGC","DEFARG","DEFOUTC","INT","FLOAT","LAST","FONTINFO","PERFBEGIN","PERFEND","SYSPARAM","METAEDIT","METALOAD","METASAVE","XCTRLSTYLE","MOUSE","MBUTTON","IRSTART","IRSTOP","IRSTATE","IRREAD","IRSPRITE","KEYBOARD","TCPIANO","TCHOUSE","TCROBOT","TCFISHING","TCBIKE","TCVISOR","LOADG","LOADV","SAVEG","SAVEV","ANIMDEF","TSCREEN","TPAGE","TCOLOR","TLAYER","TPUT","TFILL","THOME","TOFS","TROT","TSCALE","TSHOW","THIDE","TBLEND","TANIM","TSTOP","TSTART","TCHK","TVAR","TCOPY","TSAVE","TLOAD","TARRAY","TUPDATE","TFUNC","GTARGET","RGBF","HSV","GPGET","GARRAY","GUPDATE","GSAMPLE","SPLAYER","LAYER","LMATRIX","LFILTER","LCLIP","BEEPPIT","BEEPPAN","BEEPVOL","BEEPSTOP","BGMPITCH","BGMWET","EFCEN","SNDMSBAL","SNDMVOL","PRGSEEK","XSUBSCREEN","ENVSTAT","ENVTYPE","ENVLOAD","ENVSAVE","ENVINPUT$","ENVFOCUS","ENVPROJECT","ENVLOCATE","PUSHKEY","HELPGET","HELPINFO","UISTATE","UIMASK","UIPUSHCMPL","DATE$","TIME$","RESULT","CALLIDX","FREEMEM","MILLISEC","MAINCNT",
+		"STOP",
 	];
 	//SB3 only
 	var systemVariables=["CALLIDX","CSRX","CSRY","CSRZ","DATE$","ERRLINE","ERRNUM","ERRPRG","EXTFEATURE","FREEMEM","HARDWARE","MAINCNT","MICPOS","MICSIZE","MILLISEC","MPCOUNT","MPHOST","MPLOCAL","PCMPOS","PRGSLOT","RESULT","SYSBEEP","TABSTEP","VERSION"];
@@ -58,7 +63,7 @@ var applySyntaxHighlighting = (function(){
 		return type=="argkeyword"||type=="function"||type=="operator"||type=="name"||type=="equals"||type=="expr";
 	}
 	
-	function highlight(code,callback){
+	return function(code, callback, sb4){
 		var i=-1,c;
 		function next(){
 			i++;
@@ -76,7 +81,7 @@ var applySyntaxHighlighting = (function(){
 		//=================//
 		// Process a token //
 		//=================//
-		function push(type,cssType){
+		function push(type, cssType){
 			var word=code.substring(prev,i);
 			prev=i;
 			//Check words
@@ -102,11 +107,11 @@ var applySyntaxHighlighting = (function(){
 					type="keyword";
 					cssType="keyword";
 				//keywords without an expression after them
-				}else if(keywords.indexOf(upper)>=0){
+				}else if(keywords.indexOf(upper)>=0 || sb4==false && keywords_sb3.indexOf(upper)>=0 || sb4!=false && keywords_sb4.indexOf(upper)>=0){
 					type="keyword";
 					cssType="keyword";
 				//keywords w/ and expression after
-				}else if(argKeywords.indexOf(upper)>=0){
+				}else if(argKeywords.indexOf(upper)>=0 || sb4!=false && argKeywords_sb4.indexOf(upper)>=0){
 					type="argkeyword";
 					cssType="keyword";
 				//User-defined function name
@@ -134,7 +139,7 @@ var applySyntaxHighlighting = (function(){
 					}
 					if(isFunc){
 						type="function";
-						if(builtinFunctions.indexOf(upper)!=-1)
+						if(builtinFunctions.indexOf(upper)!=-1 || sb4!=true && builtinFunctions_sb3.indexOf(upper)!=-1 || sb4!=false && builtinFunctions_sb4.indexOf(upper)!=-1)
 							cssType="statement function";
 						else if(upper=="TO" || upper=="STEP")
 							cssType="to-step keyword";
@@ -142,7 +147,7 @@ var applySyntaxHighlighting = (function(){
 							cssType="statement";
 					}else{
 						type="variable"
-						if(systemVariables.indexOf(upper)!=-1)
+						if(sb4!=true && systemVariables.indexOf(upper)!=-1)
 							cssType="variable function";
 						else
 							cssType="variable";
@@ -386,6 +391,20 @@ var applySyntaxHighlighting = (function(){
 				next();
 				push("operator");
 			//
+			// Line continuation (SB4)
+			//
+			break;case '\\':
+				next();
+				if (sb4==false) {
+					push(undefined,false);
+				} else {
+					while (c && c!='\n' && c!='\r')
+						next();
+					next();
+					push("whitespace")
+				}
+			
+			//
 			//other
 			//
 			
@@ -411,42 +430,54 @@ var applySyntaxHighlighting = (function(){
 		}
 		push("eof");
 	}
+})();
 
-	//escape < and &
-	function escapeHTML(text){
+function applySyntaxHighlighting(element) {
+	function escapeHTML(text) {
 		return text.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 	}
 	
-	return function(element){
-		var html="",prevType=false;
-		//this is called for each highlightable token
-		function callback(word,type){
-			if(word){
-				//only make a new span if the CSS class has changed
-				if(type!=prevType){
-					//close previous span
-					if(prevType){
-						html+="</span>";
-					}
-					//open new span
-					if(type){
-						html+="<span class=\""+type+"\">";
-					}
-				}
-				html+=escapeHTML(word);
-				prevType=type;
+	var html="", prevType=false;
+	//this is called for each highlightable token
+	function callback(word, type) {
+		if (word) {
+			//only make a new span if the CSS class has changed
+			if (type!=prevType) {
+				//close previous span
+				if (prevType)
+					html += "</span>";
+				//open new span
+				if (type)
+					html += "<span class=\""+type+"\">";
 			}
+			html += escapeHTML(word);
+			prevType = type;
 		}
-		
-		highlight(element.textContent,callback);
-		//close last span
-		if(prevType){
-			html+="</span>";
-		}
-		element.innerHTML=html;
-	};
+	}
 	
-})();
+	highlight_smilebasic(element.textContent, callback);
+	//close last span
+	if (prevType)
+		html += "</span>";
+	element.innerHTML=html;
+}
 
-//token types:
-//comment, def, arg-keyword, function, operator, name, lparen, lbracket, equals, semicolon, comma, keyword, variable, real-label, string, number, linebreak, eof, colon, rparen, rbracket
+function make_random(length){
+	var s=""
+	for(var i=0;i<length;i++){
+		s+=String.fromCharCode(Math.random()*96+32|0);
+	}
+	return s;
+}
+
+x=document.createElement("div");
+for(i=0;i<1000;i++){
+	var s=make_random(1000);
+	x.testContent = s
+	applySyntaxHighlighting(x);
+	if (x.textContent != s){
+		
+		console.log("fail",x.textContent, s);
+		break
+	}
+}

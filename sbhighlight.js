@@ -27,8 +27,7 @@ var highlight_smilebasic = (function(){
 		"GPUTCHR16",
 	];
 	var builtinFunctions_sb4=[
-		"PCMPOS","TYPEOF","ARRAY#","ARRAY%","ARRAY$","RESIZE","INSERT","REMOVE","INSPECT","DEFARGC","DEFARG","DEFOUTC","INT","FLOAT","LAST","FONTINFO","PERFBEGIN","PERFEND","SYSPARAM","METAEDIT","METALOAD","METASAVE","XCTRLSTYLE","MOUSE","MBUTTON","IRSTART","IRSTOP","IRSTATE","IRREAD","IRSPRITE","KEYBOARD","TCPIANO","TCHOUSE","TCROBOT","TCFISHING","TCBIKE","TCVISOR","LOADG","LOADV","SAVEG","SAVEV","ANIMDEF","TSCREEN","TPAGE","TCOLOR","TLAYER","TPUT","TFILL","THOME","TOFS","TROT","TSCALE","TSHOW","THIDE","TBLEND","TANIM","TSTOP","TSTART","TCHK","TVAR","TCOPY","TSAVE","TLOAD","TARRAY","TUPDATE","TFUNC","GTARGET","RGBF","HSV","GPGET","GARRAY","GUPDATE","GSAMPLE","SPLAYER","LAYER","LMATRIX","LFILTER","LCLIP","BEEPPIT","BEEPPAN","BEEPVOL","BEEPSTOP","BGMPITCH","BGMWET","EFCEN","SNDMSBAL","SNDMVOL","PRGSEEK","XSUBSCREEN","ENVSTAT","ENVTYPE","ENVLOAD","ENVSAVE","ENVINPUT$","ENVFOCUS","ENVPROJECT","ENVLOCATE","PUSHKEY","HELPGET","HELPINFO","UISTATE","UIMASK","UIPUSHCMPL","DATE$","TIME$","RESULT","CALLIDX","FREEMEM","MILLISEC","MAINCNT",
-		"STOP",
+		"PCMPOS","TYPEOF","ARRAY#","ARRAY%","ARRAY$","RESIZE","INSERT","REMOVE","INSPECT","DEFARGC","DEFARG","DEFOUTC","INT","FLOAT","LAST","FONTINFO","PERFBEGIN","PERFEND","SYSPARAM","METAEDIT","METALOAD","METASAVE","XCTRLSTYLE","MOUSE","MBUTTON","IRSTART","IRSTOP","IRSTATE","IRREAD","IRSPRITE","KEYBOARD","TCPIANO","TCHOUSE","TCROBOT","TCFISHING","TCBIKE","TCVISOR","LOADG","LOADV","SAVEG","SAVEV","ANIMDEF","TSCREEN","TPAGE","TCOLOR","TLAYER","TPUT","TFILL","THOME","TOFS","TROT","TSCALE","TSHOW","THIDE","TBLEND","TANIM","TSTOP","TSTART","TCHK","TVAR","TCOPY","TSAVE","TLOAD","TARRAY","TUPDATE","TFUNC","GTARGET","RGBF","HSV","GPGET","GARRAY","GUPDATE","GSAMPLE","SPLAYER","STOP","LAYER","LMATRIX","LFILTER","LCLIP","BEEPPIT","BEEPPAN","BEEPVOL","BEEPSTOP","BGMPITCH","BGMWET","EFCEN","SNDMSBAL","SNDMVOL","PRGSEEK","XSUBSCREEN","ENVSTAT","ENVTYPE","ENVLOAD","ENVSAVE","ENVINPUT$","ENVFOCUS","ENVPROJECT","ENVLOCATE","PUSHKEY","HELPGET","HELPINFO","UISTATE","UIMASK","UIPUSHCMPL","DATE$","TIME$","RESULT","CALLIDX","FREEMEM","MILLISEC","MAINCNT",
 	];
 	//SB3 only
 	var systemVariables=["CALLIDX","CSRX","CSRY","CSRZ","DATE$","ERRLINE","ERRNUM","ERRPRG","EXTFEATURE","FREEMEM","HARDWARE","MAINCNT","MICPOS","MICSIZE","MILLISEC","MPCOUNT","MPHOST","MPLOCAL","PCMPOS","PRGSLOT","RESULT","SYSBEEP","TABSTEP","VERSION"];
@@ -275,9 +274,9 @@ var highlight_smilebasic = (function(){
 					var hPos=i;
 					next();
 					//read hexadecimal digits
-					if(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'||c=='_'){
+					if(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'|| (c=='_'&&sb4!=false)){
 						next();
-						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'||c=='_')
+						while(isDigit(c)||c>='A'&&c<='F'||c>='a'&&c<='f'|| (c=='_'&&sb4!=false))
 							next();
 						push("number");
 					}else{
@@ -289,9 +288,9 @@ var highlight_smilebasic = (function(){
 					var bPos=i;
 					next();
 					//read hexadecimal digits
-					if(c=='0'||c=='1'||c=='_'){
+					if(c=='0'||c=='1'|| (c=='_'&&sb4!=false)){
 						next();
-						while(c=='0'||c=='1'||c=='_')
+						while(c=='0'||c=='1'|| (c=='_'&&sb4!=false))
 							next();
 						push("number");
 					}else{
@@ -437,47 +436,46 @@ function applySyntaxHighlighting(element) {
 		return text.replace(/&/g,"&amp;").replace(/</g,"&lt;");
 	}
 	
-	var html="", prevType=false;
-	//this is called for each highlightable token
-	function callback(word, type) {
-		if (word) {
-			//only make a new span if the CSS class has changed
-			if (type!=prevType) {
-				//close previous span
-				if (prevType)
-					html += "</span>";
-				//open new span
-				if (type)
-					html += "<span class=\""+type+"\">";
+	var lang = element.dataset.code;
+	if (lang)
+		lang = lang.toLowerCase();
+	
+	var html="";
+	var text = element.textContent;
+	
+	if (!lang || lang == "sb3" || lang == "sb4") {
+		if (lang == "sb4")
+			lang = true;
+		else if (lang == "sb3")
+			lang = false;
+		else
+			lang = undefined;
+		
+		var prevType=false;
+		//this is called for each highlightable token
+		function callback(word, type) {
+			if (word) {
+				//only make a new span if the CSS class has changed
+				if (type!=prevType) {
+					//close previous span
+					if (prevType)
+						html += "</span>";
+					//open new span
+					if (type)
+						html += "<span class=\""+type+"\">";
+				}
+				html += escapeHTML(word);
+				prevType = type;
 			}
-			html += escapeHTML(word);
-			prevType = type;
 		}
+		
+		highlight_smilebasic(text, callback, lang);
+		//close last span
+		if (prevType)
+			html += "</span>";
+	} else {
+		html = escapeHTML(text)
 	}
 	
-	highlight_smilebasic(element.textContent, callback);
-	//close last span
-	if (prevType)
-		html += "</span>";
 	element.innerHTML=html;
-}
-
-function make_random(length){
-	var s=""
-	for(var i=0;i<length;i++){
-		s+=String.fromCharCode(Math.random()*96+32|0);
-	}
-	return s;
-}
-
-x=document.createElement("div");
-for(i=0;i<1000;i++){
-	var s=make_random(1000);
-	x.testContent = s
-	applySyntaxHighlighting(x);
-	if (x.textContent != s){
-		
-		console.log("fail",x.textContent, s);
-		break
-	}
 }

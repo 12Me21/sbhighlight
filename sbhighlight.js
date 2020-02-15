@@ -87,7 +87,7 @@ var highlight_smilebasic = (function(){
 			if(type=="word"){
 				var upper=word.toUpperCase();
 				//True/False
-				if(upper=="TRUE"||upper=="FALSE"){
+				if(sb4!=true && (upper=="TRUE"||upper=="FALSE")){
 					type="number";
 					cssType="true-false number";
 				//operators
@@ -99,7 +99,7 @@ var highlight_smilebasic = (function(){
 					type="def";
 					cssType="def keyword";
 				//T? TPRINT
-				}else if(upper=="T" && c=='?'){
+				}else if(sb4!=false && (upper=="T" && c=='?')){
 					word+=c;
 					next();
 					prev=i;
